@@ -1,28 +1,23 @@
 package com.example.managesystem.Controller;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
-    @RequestMapping("/login")
-    public String login()
+    @GetMapping("/{url}")
+    public String URL(@PathVariable("url") String url)
     {
-        return "login";
+        return url;
     }
 
-    @RequestMapping("/index")
-    public String index()
+    @GetMapping("favicon.ico")
+    @ResponseBody
+    public void returnNoFav()
     {
-        return "index";
+
     }
 
-    @RequestMapping("/index_v2")
-    public String index_v2()
-    {
-        return "index_v2";
-    }
 
 }

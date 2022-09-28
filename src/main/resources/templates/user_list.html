@@ -1,0 +1,237 @@
+ <!DOCTYPE html>
+ <html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 基础表格</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.7" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>自定义响应式表格</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="user_list.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="user_list.html#">选项1</a>
+                                </li>
+                                <li><a href="user_list.html#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-9 m-b-xs">
+                                <div class="ibox-content">
+
+                                        <a data-toggle="modal" class="btn btn-success" href="/user_list.html#modal-form">
+                                            <i class="fa fa-plus">添加</i>
+                                        </a>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <form action="/user/list" method="get">
+                                <div class="input-group">
+                                    <input type="text" name="key" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+
+                                        <th></th>
+                                        <th>编号</th>
+                                        <th>用户名</th>
+                                        <th>昵称</th>
+                                        <th>电话</th>
+                                        <th>用户状态</th>
+                                        <th>用户类型</th>
+                                        <th>操作</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody th:each="user:${list}">
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" class="i-checks" name="input[]">
+                                        </td>
+                                        <td>[[${user.id}]]</td>
+                                        <td>[[${user.userName}]]</td>
+                                        <td>[[${user.nickName}]]</td>
+                                        <td>[[${user.mobile}]]</td>
+                                        <div th:switch="${user.accountState}">
+                                            <td th:case="1">启用</td>
+                                            <td th:case="0">冻结</td>
+                                        </div>
+                                        <div th:switch="${user.userRole}">
+                                            <td th:case="ROLE_USER">普通用户</td>
+                                            <td th:case="ROLE_ADMIN">管理员</td>
+                                        </div>
+                                        <td>
+                                            <a th:if="!${#strings.equals(user.userRole,'ROLE_ADMIN')}"
+                                               class="btn btn-danger btn-sm"
+                                               th:onclick="'deleteUser('+${user.id}+')'" >
+                                                <i class="fa fa-remove">删除</i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <h3 class="m-t-none m-b">新增</h3>
+
+                        <p>欢迎注册(⊙o⊙)</p>
+                        <form role="form" action="/user/insert" method="post">
+                        <div class="col-sm-6 b-r">
+
+
+
+                                <div class="form-group">
+                                    <label>用户名：</label>
+                                    <input type="text" name="userName" placeholder="请输入用户名" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>密码：</label>
+                                    <input type="password" name="password" placeholder="请输入密码" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>昵称：</label>
+                                    <input type="text" name="nickName" placeholder="请输入昵称" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>电话：</label>
+                                    <input type="text" name="mobile" placeholder="请输入电话" class="form-control">
+                                </div>
+
+
+                        </div>
+                        <div class="col-sm-6 b-r">
+                            <div class="form-group">
+                                <label>用户类型：</label>
+                                <select type="text" name="userRole" placeholder="管理员/普通用户" class="form-control">
+                                <option value="ROLE_ADMIN">管理员</option>
+                                <option value="ROLE_USER">普通用户</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>用户状态：</label>
+                                <select type="text" name="accountState" placeholder="冻结/启用" class="form-control">
+                                    <option value="0">冻结</option>
+                                    <option value="1">启用</option>
+                                </select>
+                            </div>
+                        </div>
+                            <div>
+                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>添加</strong>
+                                </button>
+                                <label>
+                                    <input type="checkbox" class="i-checks">其他</label>
+                            </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.7"></script>
+
+
+
+    <!-- Peity -->
+    <script src="/js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="/js/content.js?v=1.0.0"></script>
+
+
+    <!-- iCheck -->
+    <script src="/js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Peity -->
+    <script src="/js/demo/peity-demo.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+        function deleteUser(userID){
+            swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false
+            }, function () {
+                //swal("删除成功！", "您已经永久删除了这条信息。", "success");
+                //请求后台
+                $.get('/user/delete/'+userID,function(data){
+                    if(data=='success') location.href='/user/list'
+                })
+
+            });
+        }
+    </script>
+    <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+    <!--统计代码，可删除-->
+
+</body>
+
+</html>

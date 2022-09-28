@@ -1,8 +1,12 @@
 package com.example.managesystem.Entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -13,11 +17,15 @@ public class SysUserEntity {
     private String password;
     private String nickName;
     private String mobile;
-    private int isDeleted;
+    //逻辑删除
+    @TableLogic
+    private int isDeleted=0;
     private int accountType;
     private int accountState;
-    private Date createTime;
-    private Date updateTime;
+    @TableField(fill= FieldFill.INSERT)
+    private LocalDateTime createTime;
+    @TableField(fill=FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
     private String userRole;
     private String updateUser;
     private String createUser;
