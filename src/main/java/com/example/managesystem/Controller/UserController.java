@@ -27,19 +27,20 @@ public class UserController {
     {
         ModelAndView modelAndView=new ModelAndView();
         modelAndView.addObject("list",this.sysUserService.search(key));
-
-        ModelAndView currentUser=new ModelAndView();
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        User user= (User) authentication.getPrincipal();
-        currentUser.addObject("currentUser",user);
+        User user=(User) authentication.getPrincipal();
+        modelAndView.addObject("current",user);
 
        // System.out.println(currentUser.);
 
         modelAndView.setViewName("user_list");
-
-
+        //modelAndView.setViewName("index");
+        //Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        //System.out.println(authentication.getName());
         return modelAndView;
     }
+
+
 
 
 
