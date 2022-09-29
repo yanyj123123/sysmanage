@@ -18,7 +18,8 @@
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
     <link href="/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
-
+    <!-- Data Tables -->
+    <link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
 </head>
 
 <body class="gray-bg">
@@ -62,7 +63,7 @@
                             <div class="col-sm-3">
                                 <form action="/user/list" method="get">
                                 <div class="input-group">
-                                    <input type="text" name="key" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
+                                    <input id="key" type="text" name="key" placeholder="请输入关键词" th:value="${key}" class="input-sm form-control"> <span class="input-group-btn">
                                         <button type="submit" class="btn btn-sm btn-primary"> 搜索</button> </span>
                                 </div>
                                 </form>
@@ -108,12 +109,12 @@
                                                th:onclick="'deleteUser('+${user.id}+')'" >
                                                 <i class="fa fa-remove">删除</i>
                                             </a>
-                                            <a data-toggle="modal"
-                                               th:if="${#strings.equals(current.getUsername(),'yanjie')}"
+                                            <a
                                                class="btn btn-info btn-sm"
+                                                th:href="'/user/update/'+${user.id}"
 
-                                               href="/user_list.html#update-form">
-                                                <i class="fa fa-paste">修改</i>
+                                            >
+                                                <i class="fa fa-edit">修改</i>
                                             </a>
 
                                         </td>
@@ -122,6 +123,34 @@
 
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="dataTables_info" id="editable_info" role="alert" aria-live="polite" aria-relevant="all">
+                                    显示 [[${start}]] 到 [[${end}]] 项，共 [[${total}]] 项
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="dataTables_paginate paging_simple_numbers" id="editable_paginate">
+                                    <ul class="pagination">
+                                        <li class="'paginate_button previous' +${strings.equals(pageItem,1}?'disabled':''" aria-controls="editable" tabindex="0" id="editable_previous">
+                                            <a href="javascript:void(0)" onclick="prePage()">上一页</a>
+                                        </li>
+                                        <li class="'paginate_button' +${strings.equals(page,pageItem)?'active':''}"
+                                            aria-controls="editable"
+                                            tabindex="0"
+                                            th:each="pageItem:${pages}"
+                                        >
+                                            <a href="javascript:void(0)" th:onclick="page([[${pageItem}]])">[[${pageItem}]]</a>
+                                        </li>
+
+                                        <li class="'paginate_button next'+${strings.equals(pageItem,pageCount}?'disabled':''" aria-controls="editable" tabindex="0" id="editable_next">
+                                            <a href="javascript:void(0)" onclick="nextPage()">下一页</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -193,66 +222,7 @@
     </div>
 
 
-    <div id="update-form" class="modal fade" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row">
-                        <h3 class="m-t-none m-b">用户信息修改</h3>
 
-                        <p>您好(⊙o⊙)</p>
-                        <form role="form" action="/user/update/" value="updateInform" method="get">
-                            <div class="col-sm-6 b-r">
-
-
-
-                                <div class="form-group">
-                                    <label>用户名：</label>
-                                    <input type="text" name="userName" placeholder="请输入账号" class="form-control" >
-                                </div>
-                                <div class="form-group">
-                                    <label>密码：</label>
-                                    <input type="password" name="password" placeholder="请输入密码" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>昵称：</label>
-                                    <input type="text" name="nickName" placeholder="请输入昵称" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>电话：</label>
-                                    <input type="text" name="mobile" placeholder="请输入电话" class="form-control">
-                                </div>
-
-
-                            </div>
-                            <div class="col-sm-6 b-r">
-                                <div class="form-group">
-                                    <label>用户类型：</label>
-                                    <select type="text" name="userRole" placeholder="管理员/普通用户" class="form-control">
-                                        <option value="ROLE_ADMIN">管理员</option>
-                                        <option value="ROLE_USER">普通用户</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>用户状态：</label>
-                                    <select type="text" name="accountState" placeholder="冻结/启用" class="form-control">
-                                        <option value="0">冻结</option>
-                                        <option value="1">启用</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>添加</strong>
-                                </button>
-                                <label>
-                                    <input type="checkbox" class="i-checks">其他</label>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- 全局js -->
     <script src="/js/jquery.min.js?v=2.1.4"></script>
@@ -299,24 +269,29 @@
             });
         }
 
-        function updateUser(userID){
-            swal({
-                title: "您确定要修改这条信息吗",
-                text: "修改后将无法恢复，请谨慎操作！",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "修改",
-                closeOnConfirm: false
-            }, function () {
-                //swal("删除成功！", "您已经永久删除了这条信息。", "success");
-                //请求后台
-                $.get('/user/update/'+userID,function(data){
-                    if(data=='success') location.href='/user/list'
-                })
-
-            });
+        function nextPage(){
+            if([[${page}]]==[[${pageCount}]])
+            {
+                return;
+            }
+            var key=$("#key").val()
+            //alert(key)
+            location.href='/user/list?key='+key+'&page='+([[${page}]]+1)
         }
+        function prePage(){
+            if([[${page}]]==1)
+            {
+                return;
+            }
+            var key=$("#key").val()
+            location.href='/user/list?key='+key+'&page='+([[${page}]]-1)
+        }
+        function page(page){
+            var key=$("#key").val()
+            location.href='/user/list?key='+key+'&page='+page
+        }
+
+
     </script>
     <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
     <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>

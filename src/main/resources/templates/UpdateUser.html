@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <title>H+ 后台主题UI框架 - 基础表格</title>
+  <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+  <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+  <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.7" rel="stylesheet">
+  <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+  <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+  <link href="/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+  <div class="row">
+    <h3 class="m-t-none m-b">修改</h3>
+
+    <p>本月还剩3次修改机会(⊙o⊙)</p>
+    <form role="form" action="/user/updateUser" method="post">
+      <div class="col-sm-6 b-r">
+
+        <div class="form-group">
+          <label>ID：</label>
+          <input type="text" name="id" placeholder="请输入用户名" class="form-control" readonly th:value="${updateUser.getId()}">
+        </div>
+
+        <div class="form-group">
+          <label>用户名：</label>
+          <input type="text" name="userName" placeholder="请输入用户名" class="form-control" th:value="${updateUser.getUserName()}">
+        </div>
+        <div class="form-group">
+          <label>密码：</label>
+          <input type="password" name="password" placeholder="请输入密码" class="form-control" th:value="${updateUser.getPassword()}">
+        </div>
+        <div class="form-group">
+          <label>昵称：</label>
+          <input type="text" name="nickName" placeholder="请输入昵称" class="form-control" th:value="${updateUser.getNickName()}">
+        </div>
+        <div class="form-group">
+          <label>电话：</label>
+          <input type="text" name="mobile" placeholder="请输入电话" class="form-control"th:value="${updateUser.getMobile()}">
+        </div>
+
+
+      </div>
+      <div class="col-sm-6 b-r">
+        <div class="form-group">
+          <label>用户类型：</label>
+          <select type="text" name="userRole" placeholder="管理员/普通用户" class="form-control" th:value="${updateUser.getUserRole()}">
+            <option value="ROLE_ADMIN" th:selected="${updateUser.getUserRole()=='ROLE_ADMIN'}">管理员</option>
+            <option value="ROLE_USER"  th:selected="${updateUser.getUserRole()=='ROLE_USER'}">普通用户</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>用户状态：</label>
+          <select type="text" name="accountState" placeholder="冻结/启用" class="form-control"th:value="${updateUser.getAccountState()}">
+            <option value="0" th:selected="${updateUser.getAccountState()==0}">冻结</option>
+            <option value="1" th:selected="${updateUser.getAccountState()==1}">启用</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>修改</strong>
+        </button>
+        <label>
+          <input type="checkbox" class="i-checks">其他</label>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<!-- 全局js -->
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/bootstrap.min.js?v=3.3.7"></script>
+
+
+
+<!-- Peity -->
+<script src="/js/plugins/peity/jquery.peity.min.js"></script>
+
+<!-- 自定义js -->
+<script src="/js/content.js?v=1.0.0"></script>
+
+
+<!-- iCheck -->
+<script src="/js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- Peity -->
+<script src="/js/demo/peity-demo.js"></script>
+
+<script>
+
+
+
+</script>
+<script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+<!--统计代码，可删除-->
+
+</body>
+
+</html>

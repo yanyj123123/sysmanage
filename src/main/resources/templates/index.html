@@ -35,10 +35,8 @@
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 									<span class="clear">
 										<span class="block m-t-xs"><strong class="font-bold" th:text="${indexCurrent.getUsername()}">nihao</strong></span>
-										<span class="text-muted text-xs block" th:if="${indexCurrent.getAuthorities()}=='[ROLE_ADMIN]'">超级管理员<b class="caret"></b></span>
-										<span class="text-muted text-xs block" th:if="${indexCurrent.getAuthorities()}=='ROLE_USER'">普通用户<b class="caret"></b></span>
-										<span class="text-muted text-xs block" th:if="${indexCurrent.getAuthorities()}=='ROLE_VIP'">超级VIP<b class="caret"></b></span>
-								        <span class="text-muted text-xs block" th:text="${indexCurrent.getAuthorities()}">超级VIP<b class="caret"></b></span>
+
+								        <span class="text-muted text-xs block" >欢迎您<b class="caret"></b></span>
 
 									</span>
 								</a>
